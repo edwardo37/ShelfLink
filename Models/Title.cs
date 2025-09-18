@@ -10,5 +10,8 @@
         public TitleGenre? Genre { get; set; }
         public string? ISBN { get; set; }
         public DateOnly PublishDate { get; set; }
+
+        // Navigation properties
+        public List<TitleCopy> Copies { get; } = new List<TitleCopy>();
     }
 }
