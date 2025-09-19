@@ -11,7 +11,7 @@
 
         // Navigation properties
         public required TitleAuthor Author { get; set; }
-        public Publisher? Publisher { get; set; }
+        public TitlePublisher? Publisher { get; set; }
         public TitleGenre? Genre { get; set; }
         public required TitleCategory Category { get; set; }
 

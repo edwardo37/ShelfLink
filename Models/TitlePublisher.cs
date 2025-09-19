@@ -3,7 +3,7 @@
     /// <summary>
     /// Publisher class with Id and Name
     /// </summary>
-    public class Publisher : EntityBase
+    public class TitlePublisher : EntityBase
     {
         public required string Name { get; set; }
     }
