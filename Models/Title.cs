@@ -10,7 +10,7 @@
         public DateOnly PublishDate { get; set; }
 
         // Navigation properties
-        public required Author Author { get; set; }
+        public required TitleAuthor Author { get; set; }
         public Publisher? Publisher { get; set; }
         public TitleGenre? Genre { get; set; }
         public required TitleCategory Category { get; set; }
