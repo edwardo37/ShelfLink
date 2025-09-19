@@ -14,6 +14,8 @@
         public Publisher? Publisher { get; set; }
         public TitleGenre? Genre { get; set; }
         public required TitleCategory Category { get; set; }
+
         public List<TitleCopy> Copies { get; } = new List<TitleCopy>();
+        public List<TitleHold> Holds { get; } = new List<TitleHold>();
     }
 }
