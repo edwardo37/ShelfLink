@@ -7,8 +7,8 @@
     {
         public int Id { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-        public required User CreatedBy { get; set; }
+        public User? CreatedBy { get; set; }
         public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
-        public required User UpdatedBy { get; set; }
+        public User? UpdatedBy { get; set; }
     }
 }
