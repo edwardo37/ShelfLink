@@ -10,8 +10,7 @@
         public string? Email { get; set; }
         public string? Phone { get; set; }
         public required string Address { get; set; }
-        // TODO: Add constraints
-        public required string Status { get; set; }
-        public required string Role { get; set; }
+        public required UserStatus Status { get; set; }
+        public required UserRole Role { get; set; }
     }
 }
