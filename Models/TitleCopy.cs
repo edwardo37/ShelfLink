@@ -8,5 +8,7 @@
         public required Title Title { get; set; }
         public string? Location { get; set; }
         public string? Barcode { get; set; }
+
+        public CopyCheckout? copyCheckout { get; }
     }
 }
