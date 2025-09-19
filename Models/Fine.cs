@@ -5,7 +5,7 @@
     /// </summary>
     public class Fine : EntityBase
     {
-        public required LibraryMember Member { get; set; }
+        public required User Member { get; set; }
         public required decimal Amount { get; set; }
         public required DateTime DateIssued { get; set; }
         public bool IsPaid { get; set; } = false;

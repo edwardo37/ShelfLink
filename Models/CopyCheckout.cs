@@ -6,7 +6,7 @@
     public class CopyCheckout : EntityBase
     {
         public required TitleCopy Copy { get; set; }
-        public required LibraryMember Member { get; set; }
+        public required User Member { get; set; }
         public required DateTime DueDate { get; set; }
     }
 }
