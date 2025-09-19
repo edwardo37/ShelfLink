@@ -3,7 +3,7 @@
     /// <summary>
     /// Fine issued to a library member. Added automatically when a copy is overdue.
     /// </summary>
-    public class Fine : EntityBase
+    public class UserFine : EntityBase
     {
         public required User Member { get; set; }
         public required decimal Amount { get; set; }
