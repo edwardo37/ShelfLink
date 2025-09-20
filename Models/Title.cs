@@ -6,6 +6,7 @@
     public class Title : EntityBase
     {
         public required string Name { get; set; }
+        public string? Description { get; set; }
         public string? ISBN { get; set; }
         public DateOnly PublishDate { get; set; }
         public required int AuthorId { get; set; }
