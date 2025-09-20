@@ -5,10 +5,12 @@
     /// </summary>
     public class TitleCopy : EntityBase
     {
-        public required Title Title { get; set; }
+        public required int TitleId { get; set; }
+        public int? CopyCheckoutId { get; set; }
         public string? Location { get; set; }
         public string? Barcode { get; set; }
-
+        // Navigation properties
+        public required Title Title { get; set; }
         public CopyCheckout? copyCheckout { get; }
     }
 }

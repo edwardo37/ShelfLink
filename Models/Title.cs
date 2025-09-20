@@ -8,6 +8,10 @@
         public required string Name { get; set; }
         public string? ISBN { get; set; }
         public DateOnly PublishDate { get; set; }
+        public required int AuthorId { get; set; }
+        public int? PublisherId { get; set; }
+        public int? GenreId { get; set; }
+        public required int CategoryId { get; set; }
 
         // Navigation properties
         public required TitleAuthor Author { get; set; }
