@@ -11,6 +11,7 @@ namespace ShelfLink.Controllers
         {
             new Title
             {
+                Id = 1,
                 Name = "The Great Gatsby",
                 ISBN = "9780743273565",
                 PublishDate = new DateOnly(1925, 4, 10),
@@ -21,6 +22,7 @@ namespace ShelfLink.Controllers
             },
             new Title
             {
+                Id = 2,
                 Name = "To Kill a Mockingbird",
                 ISBN = "9780061120084",
                 PublishDate = new DateOnly(1960, 7, 11),
@@ -35,6 +37,50 @@ namespace ShelfLink.Controllers
         public List<Title> GetTitles()
         {
             return TITLES;
+        }
+
+        [HttpGet("{id}", Name = "TitleById")]
+        public Title? GetTitleById(int id)
+        {
+            return TITLES.FirstOrDefault(t => t.Id == id);
+        }
+
+        [HttpPost("", Name = "CreateTitle")]
+        public Title CreateTitle([FromBody] Title newTitle)
+        {
+            newTitle.Id = TITLES.Count + 1;
+            TITLES.Add(newTitle);
+            return newTitle;
+        }
+
+        [HttpPut("{id}", Name = "UpdateTitle")]
+        public Title? UpdateTitle(int id, [FromBody] Title updatedTitle)
+        {
+            var existingTitle = TITLES.FirstOrDefault(t => t.Id == id);
+            if (existingTitle == null)
+            {
+                return null;
+            }
+            existingTitle.Name = updatedTitle.Name;
+            existingTitle.ISBN = updatedTitle.ISBN;
+            existingTitle.PublishDate = updatedTitle.PublishDate;
+            existingTitle.Publisher = updatedTitle.Publisher;
+            existingTitle.Author = updatedTitle.Author;
+            existingTitle.Category = updatedTitle.Category;
+            existingTitle.Genre = updatedTitle.Genre;
+            return existingTitle;
+        }
+
+        [HttpDelete("{id}", Name = "DeleteTitle")]
+        public bool DeleteTitle(int id)
+        {
+            var titleToRemove = TITLES.FirstOrDefault(t => t.Id == id);
+            if (titleToRemove == null)
+            {
+                return false;
+            }
+            TITLES.Remove(titleToRemove);
+            return true;
         }
     }
 }
