@@ -12,5 +12,8 @@
         public required string Address { get; set; }
         public required UserStatus Status { get; set; }
         public required UserRole Role { get; set; }
+        // Navigation properties
+        public List<CopyCheckout> Checkouts { get; } = new List<CopyCheckout>();
+        public List<TitleHold> Holds { get; } = new List<TitleHold>();
     }
 }
