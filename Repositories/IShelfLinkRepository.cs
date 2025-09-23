@@ -1,5 +1,4 @@
-﻿using ShelfLink.DTOs;
-using ShelfLink.Models;
+﻿using ShelfLink.Models;
 
 namespace ShelfLink.Repositories
 {
