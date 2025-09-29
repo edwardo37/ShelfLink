@@ -1,4 +1,5 @@
-﻿using ShelfLink.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using ShelfLink.Models;
 
 namespace ShelfLink.Repositories
 {
@@ -8,36 +9,34 @@ namespace ShelfLink.Repositories
     public interface IShelfLinkRepository<TEntity> where TEntity : EntityBase
     {
         /// <summary>
-        /// Add a new entity to the repository
-        /// </summary>
-        /// <param name="entity">The entity to save</param>
-        /// <returns>The newly-saved entity, with EntityBase updated</returns>
-        TEntity Add(TEntity entity);
-        /// <summary>
-        /// Get an entity by its unique Id
+        /// Get an entity by its unique identifier
         /// </summary>
         /// <param name="id">The Id of the entity to fetch</param>
-        /// <returns>The fetched entity, null if not found</returns>
-        TEntity? GetById(int id);
+        /// <returns>The entity, null if not found</returns>
+        public TEntity? GetById(int id);
         /// <summary>
-        /// Update an entity in the repository
+        /// Generic query function for the service layer
         /// </summary>
-        /// <param name="entity">The entity to base the update on</param>
-        /// <returns>The newly-updated entity, null if not found</returns>
-        TEntity? ApplyUpdate(TEntity entity);
+        /// <returns>A queryable version of the DbSet</returns>
+        public IQueryable<TEntity> Query();
         /// <summary>
-        /// Get a list of entities based on a filter query, with pagination
+        /// Add an entity to the DB. Saves changes must be called to persist
         /// </summary>
-        /// <param name="filterQuery">The query lambda to run</param>
-        /// <param name="page">The current page</param>
-        /// <param name="pageSize">The size of each page</param>
-        /// <returns>A list of applicable entites</returns>
-        List<TEntity> GetListByFilterPaged(Func<IQueryable<TEntity>, IQueryable<TEntity>> filterQuery, int page, int pageSize);
+        /// <param name="entity">The entity to add</param>
+        public void Add(TEntity entity);
         /// <summary>
-        /// Delete an entity by its unique Id
+        /// Update an entity in the DB. Saves changes must be called to persist
         /// </summary>
-        /// <param name="id">The Id of the entity to delete</param>
-        /// <returns>Bool indicating status, false if not found</returns>
-        bool Delete(int id);
+        /// <param name="entity">The entity to update</param>
+        public void Update(TEntity entity);
+        /// <summary>
+        /// Delete an entity from the DB. Saves changes must be called to persist
+        /// </summary>
+        /// <param name="entity"></param>
+        public void Delete(TEntity entity);
+        /// <summary>
+        /// Save tracked changes to the DB
+        /// </summary>
+        public void SaveChanges();
     }
 }
