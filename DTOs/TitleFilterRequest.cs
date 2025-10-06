@@ -5,13 +5,13 @@ namespace ShelfLink.DTOs
     public class TitleFilterRequest
     {
         [Length(1, 200)]
-        public string? Name { get; set; }
+        public string? Name { get; set; } = string.Empty;
         [Length(10, 13)]
-        public string? ISBN { get; set; }
-        public int? PublishDate { get; set; }
-        public string? Author { get; set; }
-        public string? Publisher { get; set; }
-        public string? Genre { get; set; }
-        public string? Category { get; set; }
+        public string? ISBN { get; set; } = string.Empty;
+        public int? PublishDate { get; set; } = 0;
+        public string? Author { get; set; } = string.Empty;
+        public string? Publisher { get; set; } = string.Empty;
+        public string? Genre { get; set; } = string.Empty;
+        public string? Category { get; set; } = string.Empty;
     }
 }
