@@ -9,7 +9,7 @@ namespace ShelfLink.DTOs
         [Length(10, 13)]
         public string ISBN { get; set; } = string.Empty;
         public DateOnly? PublishDate { get; set; } = null;
-        public string Author { get; set; } = string.Empty;
+        public List<string> Authors { get; set; } = [];
         public string Publisher { get; set; } = string.Empty;
         public string Genre { get; set; } = string.Empty;
         public string Category { get; set; } = string.Empty;
