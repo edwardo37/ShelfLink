@@ -15,7 +15,7 @@
         public required int CategoryId { get; set; }
 
         // Navigation properties
-        public required TitleAuthor Author { get; set; }
+        public required List<TitleAuthor> Authors { get; set; } = new List<TitleAuthor>();
         public TitlePublisher? Publisher { get; set; }
         public TitleGenre? Genre { get; set; }
         public required TitleCategory Category { get; set; }
