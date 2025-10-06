@@ -8,7 +8,7 @@ namespace ShelfLink.DTOs
         public string? Name { get; set; } = string.Empty;
         [Length(10, 13)]
         public string? ISBN { get; set; } = string.Empty;
-        public int? PublishDate { get; set; } = 0;
+        public DateOnly? PublishDate { get; set; } = null;
         public string? Author { get; set; } = string.Empty;
         public string? Publisher { get; set; } = string.Empty;
         public string? Genre { get; set; } = string.Empty;
