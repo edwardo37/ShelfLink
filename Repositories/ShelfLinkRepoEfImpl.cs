@@ -5,10 +5,10 @@ namespace ShelfLink.Repositories
 {
     public class ShelfLinkRepoEfImpl<TEntity> : IShelfLinkRepository<TEntity> where TEntity : EntityBase
     {
-        private readonly DbContext _context;
+        private readonly ShelfLinkDbContext _context;
         private readonly DbSet<TEntity> _dbSet;
 
-        public ShelfLinkRepoEfImpl(DbContext context)
+        public ShelfLinkRepoEfImpl(ShelfLinkDbContext context)
         {
             _context = context;
             _dbSet = _context.Set<TEntity>();
