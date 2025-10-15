@@ -1,4 +1,7 @@
-﻿namespace ShelfLink.Models
+﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
+
+namespace ShelfLink.Models
 {
     /// <summary>
     /// Fine issued to a library member. Added automatically when a copy is overdue.
@@ -7,6 +10,7 @@
     {
         [Key]
         public required int UserId { get; set; }
+        [Precision(18, 2)]
         public required decimal Amount { get; set; }
         public required DateTime DateIssued { get; set; }
         public bool IsPaid { get; set; } = false;
