@@ -25,6 +25,15 @@ namespace ShelfLink.Repositories
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            // Composite PK for Copy Checkout
+            modelBuilder.Entity<CopyCheckout>()
+                .HasKey(e => new { e.TitleCopyId, e.MemberId });
+
+            // Composite PK for Title Hold
+            modelBuilder.Entity<TitleHold>()
+                .HasKey(e => new { e.TitleId, e.MemberId });
+
+
             // Configure relationships, constraints, etc.
             base.OnModelCreating(modelBuilder);
         }
