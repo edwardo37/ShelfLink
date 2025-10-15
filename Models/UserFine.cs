@@ -5,7 +5,8 @@
     /// </summary>
     public class UserFine : EntityBase
     {
-        public required int MemberId { get; set; }
+        [Key]
+        public required int UserId { get; set; }
         public required decimal Amount { get; set; }
         public required DateTime DateIssued { get; set; }
         public bool IsPaid { get; set; } = false;
