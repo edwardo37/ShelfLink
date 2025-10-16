@@ -1,8 +1,11 @@
-﻿namespace ShelfLink.Models
+﻿using Microsoft.EntityFrameworkCore;
+
+namespace ShelfLink.Models
 {
     /// <summary>
     /// Unique title entity. Represents all main inventory in a library.
     /// </summary>
+    [Index(nameof(ISBN), IsUnique=true)]
     public class Title : EntityBase
     {
         public int TitleId { get; set; }
