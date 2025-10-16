@@ -13,10 +13,9 @@ namespace ShelfLink.Models
         public string? Description { get; set; }
         public string? ISBN { get; set; }
         public DateOnly PublishDate { get; set; }
-        public required int AuthorId { get; set; }
-        public int? PublisherId { get; set; }
-        public int? GenreId { get; set; }
-        public required int CategoryId { get; set; }
+        public string? PublisherName { get; set; }
+        public string? GenreName { get; set; }
+        public required string CategoryName { get; set; }
 
         // Navigation properties
         public required List<TitleAuthor> Authors { get; set; } = new List<TitleAuthor>();
