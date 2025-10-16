@@ -6,6 +6,7 @@ namespace ShelfLink.DTOs
     {
         [Length(1,200)]
         public string? Name { get; set; }
+        public string? Description { get; set; }
         [Length(10,13)]
         public string? ISBN { get; set; }
         public DateOnly? PublishDate { get; set; }

@@ -7,6 +7,7 @@ namespace ShelfLink.DTOs
         [Required]
         [Length(1, 200)]
         public string Name { get; set; } = string.Empty;
+        public string? Description { get; set; } = string.Empty;
         [Length(10, 13)]
         public string? ISBN { get; set; }
         [Required]
