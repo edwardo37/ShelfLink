@@ -10,10 +10,10 @@ namespace ShelfLink.Models
         [JsonIgnore]
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         [JsonIgnore]
-        public User? CreatedBy { get; set; }
+        public int? CreatedByUserId { get; set; }
         [JsonIgnore]
         public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
         [JsonIgnore]
-        public User? UpdatedBy { get; set; }
+        public int? UpdatedByUserId { get; set; }
     }
 }
