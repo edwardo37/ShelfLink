@@ -9,5 +9,8 @@ namespace ShelfLink.Models
     {
         [Key]
         public required string Name { get; set; }
+
+        // Navigational properties
+        public List<Title> Titles { get; set; } = [];
     }
 }
