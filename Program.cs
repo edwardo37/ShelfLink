@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
+using ShelfLink.Models;
 using ShelfLink.Repositories;
+using ShelfLink.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,9 +12,13 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddDbContext<DbContext>(options =>
+builder.Services.AddDbContext<ShelfLinkDbContext>(options =>
     options.UseSqlServer(Environment.GetEnvironmentVariable("SqlServerConnection"))
 );
+
+builder.Services.AddScoped(typeof(IShelfLinkRepository<>), typeof(ShelfLinkRepoEfImpl<>));
+
+builder.Services.AddScoped<TitleService>();
 
 var app = builder.Build();
 
