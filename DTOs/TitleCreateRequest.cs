@@ -12,10 +12,10 @@ namespace ShelfLink.DTOs
         [Required]
         public DateOnly PublishDate { get; set; }
         [Required]
-        public string Author { get; set; } = string.Empty;
-        public string? Publisher { get; set; }
-        public string? Genre { get; set; }
+        public List<int> AuthorIds { get; set; } = [];
+        public string? PublisherName { get; set; }
+        public string? GenreName { get; set; }
         [Required]
-        public string Category { get; set; } = string.Empty;
+        public string CategoryName { get; set; } = "";
     }
 }
