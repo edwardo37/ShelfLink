@@ -5,6 +5,7 @@
     /// </summary>
     public class TitleAuthor : EntityBase
     {
+        public int TitleAuthorId { get; set; }
         public required string Name { get; set; }
 
         // Navigational properties

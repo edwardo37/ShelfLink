@@ -5,6 +5,7 @@
     /// </summary>
     public class TitleCopy : EntityBase
     {
+        public int TitleCopyId { get; set; }
         public required int TitleId { get; set; }
         public int? CopyCheckoutId { get; set; }
         public string? Location { get; set; }
