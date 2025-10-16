@@ -1,85 +1,50 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using ShelfLink.Models;
+using ShelfLink.DTOs;
+using ShelfLink.Services;
 
 namespace ShelfLink.Controllers
 {
     [ApiController]
-    [Route("/title")]
+    [Route("api/title")]
     public class TitleController : Controller
     {
-        List<Title> TITLES = new List<Title>
-        {
-            new Title
-            {
-                Id = 1,
-                Name = "The Great Gatsby",
-                ISBN = "9780743273565",
-                PublishDate = new DateOnly(1925, 4, 10),
-                Publisher = new TitlePublisher { Id = 1, Name = "Scribner" },
-                Author = new TitleAuthor { Id = 1, Name = "F. Scott Fitzgerald" },
-                Category = new TitleCategory { Id = 1, Name = "Book" },
-                Genre = new TitleGenre { Id = 1, Name = "Fiction" },
-            },
-            new Title
-            {
-                Id = 2,
-                Name = "To Kill a Mockingbird",
-                ISBN = "9780061120084",
-                PublishDate = new DateOnly(1960, 7, 11),
-                Publisher = new TitlePublisher { Id = 2, Name = "J.B. Lippincott & Co." },
-                Author = new TitleAuthor { Id = 2, Name = "Harper Lee" },
-                Category = new TitleCategory { Id = 1, Name = "Book" },
-                Genre = new TitleGenre { Id = 1, Name = "Fiction" },
-            }
-        };
+        private readonly TitleService _titleService;
 
-        [HttpGet("", Name = "Titles")]
-        public List<Title> GetTitles()
+        public TitleController(TitleService titleService)
         {
-            return TITLES;
+            _titleService = titleService;
         }
 
+
         [HttpGet("{id}", Name = "TitleById")]
-        public Title? GetTitleById(int id)
+        public TitleResponse? GetTitleById(int id)
         {
-            return TITLES.FirstOrDefault(t => t.Id == id);
+            return _titleService.GetById(id);
+        }
+
+        [HttpGet("", Name = "TitleByFilter")]
+        public List<TitleResponse> GetTitleByFilter([FromBody] TitleFilterRequest titleFilter, [FromQuery] int page, [FromQuery] int pageSize = 20)
+        {
+            return _titleService.GetByFilterPaged(titleFilter, page, pageSize);
         }
 
         [HttpPost("", Name = "CreateTitle")]
-        public Title CreateTitle([FromBody] Title newTitle)
+        public TitleResponse CreateTitle([FromBody] TitleCreateRequest titleCreateRequest)
         {
-            newTitle.Id = TITLES.Count + 1;
-            TITLES.Add(newTitle);
-            return newTitle;
+            return _titleService.Create(titleCreateRequest);
         }
 
         [HttpPut("{id}", Name = "UpdateTitle")]
-        public Title? UpdateTitle(int id, [FromBody] Title updatedTitle)
+        public TitleResponse? UpdateTitle(int id, [FromBody] TitleUpdateRequest updatedTitle)
         {
-            var existingTitle = TITLES.FirstOrDefault(t => t.Id == id);
-            if (existingTitle == null)
-            {
-                return null;
-            }
-            existingTitle.Name = updatedTitle.Name;
-            existingTitle.ISBN = updatedTitle.ISBN;
-            existingTitle.PublishDate = updatedTitle.PublishDate;
-            existingTitle.Publisher = updatedTitle.Publisher;
-            existingTitle.Author = updatedTitle.Author;
-            existingTitle.Category = updatedTitle.Category;
-            existingTitle.Genre = updatedTitle.Genre;
-            return existingTitle;
+            return _titleService.Update(id, updatedTitle);
         }
 
         [HttpDelete("{id}", Name = "DeleteTitle")]
         public bool DeleteTitle(int id)
         {
-            var titleToRemove = TITLES.FirstOrDefault(t => t.Id == id);
-            if (titleToRemove == null)
-            {
-                return false;
-            }
-            TITLES.Remove(titleToRemove);
+            _titleService.Delete(id);
+
             return true;
         }
     }
