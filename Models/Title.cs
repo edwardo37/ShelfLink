@@ -18,7 +18,7 @@ namespace ShelfLink.Models
         public required string CategoryName { get; set; }
 
         // Navigation properties
-        public required List<TitleAuthor> Authors { get; set; } = new List<TitleAuthor>();
+        public List<TitleAuthor> Authors { get; set; } = new List<TitleAuthor>();
         public TitlePublisher? Publisher { get; set; }
         public TitleGenre? Genre { get; set; }
         public TitleCategory? Category { get; set; }
