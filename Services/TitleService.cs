@@ -7,12 +7,12 @@ namespace ShelfLink.Services
     public class TitleService
     {
         private readonly IShelfLinkRepository<Title> _titleRepo;
+        private readonly IShelfLinkRepository<TitleAuthor> _authorRepo;
 
-        public TitleService(
-            IShelfLinkRepository<Title> titleRepo
-        )
+        public TitleService(IShelfLinkRepository<Title> titleRepo, IShelfLinkRepository<TitleAuthor> authorRepo)
         {
             _titleRepo = titleRepo;
+            _authorRepo = authorRepo;
         }
 
 
