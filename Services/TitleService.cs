@@ -25,14 +25,14 @@ namespace ShelfLink.Services
         /// <exception cref="KeyNotFoundException">The title was not found in the database.</exception>
         public TitleResponse? GetById(int id)
         {
-            Title? title = _titleRepo.GetById(id);
+            Title? title = _titleRepo.Query().Include(t => t.Authors).FirstOrDefault(t => t.TitleId == id);
 
             if (title == null)
             {
                 throw new KeyNotFoundException("Could not find the title specified");
             }
 
-            TitleResponse response = new()
+            return new TitleResponse
             {
                 TitleId = title.TitleId,
                 Name = title.Name,
