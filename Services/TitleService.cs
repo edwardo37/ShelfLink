@@ -200,6 +200,49 @@ namespace ShelfLink.Services
                 // TODO: Add authors
                 AuthorIds = titleToUpdate.Authors?.Select(a => a.TitleAuthorId).ToList(),
                 AuthorNames = titleToUpdate.Authors?.Select(a => a.Name).ToList()
+
+        /// <summary>
+        /// Overwrite an existing Title in the repo. All properties will be overwritten
+        /// </summary>
+        /// <param name="id">The Id of the title to overwrite</param>
+        /// <param name="titleReplacement">The create request object to overwrite with</param>
+        /// <returns>A response reflecting the new title</returns>
+        /// <exception cref="KeyNotFoundException">The Id of the title could not be found</exception>
+        public TitleResponse Overwrite(int id, TitleCreateRequest titleReplacement)
+        {
+            Title? titleToOverwrite = _titleRepo.GetById(id);
+
+            if (titleToOverwrite == null)
+            {
+                throw new KeyNotFoundException("The title to overwrite could not be found.");
+            }
+
+            titleToOverwrite.Name = titleReplacement.Name;
+            titleToOverwrite.Description = titleReplacement.Description;
+            titleToOverwrite.ISBN = titleReplacement.Description;
+            titleToOverwrite.PublishDate = titleReplacement.PublishDate;
+            titleToOverwrite.PublisherName = titleReplacement.PublisherName;
+            titleToOverwrite.GenreName = titleReplacement.GenreName;
+            titleToOverwrite.CategoryName = titleReplacement.CategoryName;
+
+            _titleRepo.SaveChanges();
+
+            return new TitleResponse
+            {
+                TitleId = titleToOverwrite.TitleId,
+                Name = titleToOverwrite.Name,
+                Description = titleToOverwrite.Description,
+                ISBN = titleToOverwrite.ISBN,
+                PublishDate = titleToOverwrite.PublishDate,
+                Publisher = titleToOverwrite.PublisherName,
+                Genre = titleToOverwrite.GenreName,
+                CategoryName = titleToOverwrite.CategoryName,
+
+                Authors = titleToOverwrite.Authors.Select(a => new AuthorResponse
+                {
+                    TitleAuthorId = a.TitleAuthorId,
+                    Name = a.Name
+                }).ToList()
             };
         }
 
