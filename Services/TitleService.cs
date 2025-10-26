@@ -48,13 +48,15 @@ namespace ShelfLink.Services
                 Genre = title.Genre?.Name ?? "",
                 CategoryName = title.CategoryName
             };
-
-            response.AuthorIds = title.Authors?.Select(author => author.TitleAuthorId).ToList();
-            response.AuthorNames = title.Authors?.Select(author => author.Name).ToList();
-
-            return response;
         }
 
+        /// <summary>
+        /// Get a list of titles using a filter with optional properties, paged
+        /// </summary>
+        /// <param name="titleFilter">The filter to apply. Null properties will be ignored</param>
+        /// <param name="page">The page to skip to</param>
+        /// <param name="pageSize">The size of each page</param>
+        /// <returns></returns>
         public List<TitleResponse> GetByFilterPaged(TitleFilterRequest titleFilter, int page, int pageSize)
         {
             var query = _titleRepo.Query();
@@ -117,7 +119,12 @@ namespace ShelfLink.Services
             return responses;
         }
 
-
+        /// <summary>
+        /// Create a new title in the repository
+        /// </summary>
+        /// <param name="titleCreateRequest">The title to create</param>
+        /// <returns>A response object of the title</returns>
+        /// <exception cref="KeyNotFoundException">One of the authorIds specified could not be found</exception>
         public TitleResponse Create(TitleCreateRequest titleCreateRequest)
         {
             Title newTitle = new()
@@ -130,7 +137,7 @@ namespace ShelfLink.Services
                 GenreName = titleCreateRequest.GenreName,
                 CategoryName = titleCreateRequest.CategoryName
             };
-                
+
             foreach (int authorId in titleCreateRequest.AuthorIds)
             {
                 TitleAuthor? authorToAdd = _authorRepo.GetById(authorId);
@@ -159,6 +166,13 @@ namespace ShelfLink.Services
             };
         }
 
+        /// <summary>
+        /// Update the title specified by it's Id. Null properties will be ignored
+        /// </summary>
+        /// <param name="id">The Id of the title to update</param>
+        /// <param name="titleUpdateRequest">The updated object request</param>
+        /// <returns>A response of the newly-updated title</returns>
+        /// <exception cref="KeyNotFoundException">The Title to update or replacement author Ids could not be found</exception>
         public TitleResponse Update(int id, TitleUpdateRequest titleUpdateRequest)
         {
             Title? titleToUpdate = _titleRepo.GetById(id);
@@ -286,6 +300,11 @@ namespace ShelfLink.Services
             };
         }
 
+        /// <summary>
+        /// Delete a title in the repository
+        /// </summary>
+        /// <param name="id">The Id of the Title to delete</param>
+        /// <exception cref="KeyNotFoundException">The Id of the title could not be found</exception>
         public void Delete(int id)
         {
             Title? titleToDelete = _titleRepo.GetById(id);
