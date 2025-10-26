@@ -19,6 +19,7 @@ builder.Services.AddDbContext<ShelfLinkDbContext>(options =>
 builder.Services.AddScoped(typeof(IShelfLinkRepository<>), typeof(ShelfLinkRepoEfImpl<>));
 
 builder.Services.AddScoped<TitleService>();
+builder.Services.AddScoped<AuthorService>();
 
 var app = builder.Build();
 
