@@ -21,7 +21,8 @@ namespace ShelfLink.Models
         public List<TitleAuthor> Authors { get; set; } = new List<TitleAuthor>();
         public TitlePublisher? Publisher { get; set; }
         public TitleGenre? Genre { get; set; }
-        public TitleCategory? Category { get; set; }
+        // CategoryName is required
+        public TitleCategory Category { get; set; } = null!;
 
         public List<TitleCopy> Copies { get; } = new List<TitleCopy>();
         public List<TitleHold> Holds { get; } = new List<TitleHold>();
