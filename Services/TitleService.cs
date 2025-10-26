@@ -61,17 +61,19 @@ namespace ShelfLink.Services
 
             // Basic queries
             query = query
-                .Where(title => title.Name.Contains(titleFilter.Name))
-                .Where(title => (title.ISBN != null && title.ISBN.Contains(titleFilter.ISBN)))
-                .Where(title => (title.Publisher != null && title.Publisher.Name == titleFilter.PublisherName))
-                .Where(title => (title.Genre != null && title.Genre.Name == titleFilter.GenreName))
-                .Where(title => title.Category != null && title.Category.Name.Contains(titleFilter.CategoryName ?? ""));
+                .Where(title => title.Name.Contains(titleFilter.Name ?? ""))
+                .Where(title => title.ISBN != null && title.ISBN.Contains(titleFilter.ISBN ?? ""))
+            // Nav properties
+                .Include(title => title.Publisher)
+                .Include(title => title.Genre)
+                .Include(title => title.Category)
+                .Where(title => titleFilter.PublisherName == null || title.Publisher != null && title.Publisher.Name.Contains(titleFilter.PublisherName))
+                .Where(title => titleFilter.GenreName == null || title.Genre != null && title.Genre.Name.Contains(titleFilter.GenreName))
+                .Where(title => titleFilter.CategoryName == null || title.Category != null && title.Category.Name.Contains(titleFilter.CategoryName));
 
-
-            if (titleFilter.AuthorIds.Count > 0)
+            if (titleFilter.PublishYear > 0)
             {
-                query = query
-                    .Where(title => title.Authors != null && title.Authors.Any(author => titleFilter.AuthorIds.Contains(author.TitleAuthorId)));
+                query = query.Where(title => title.PublishDate.Year % titleFilter.PublishYear == 0);
             }
 
             if (titleFilter.AuthorIds.Count > 0)
