@@ -1,6 +1,7 @@
 ﻿using ShelfLink.Repositories;
 using ShelfLink.Models;
 using ShelfLink.DTOs;
+using Microsoft.EntityFrameworkCore;
 
 namespace ShelfLink.Services
 {
@@ -38,6 +39,11 @@ namespace ShelfLink.Services
                 Description = title.Description,
                 ISBN = title.ISBN,
                 PublishDate = title.PublishDate,
+                Authors = title.Authors.Select(a => new AuthorResponse
+                {
+                    TitleAuthorId = a.TitleAuthorId,
+                    Name = a.Name
+                }).ToList(),
                 Publisher = title.Publisher?.Name ?? "",
                 Genre = title.Genre?.Name ?? "",
                 CategoryName = title.CategoryName
@@ -68,9 +74,11 @@ namespace ShelfLink.Services
                     .Where(title => title.Authors != null && title.Authors.Any(author => titleFilter.AuthorIds.Contains(author.TitleAuthorId)));
             }
 
-            if (titleFilter.PublishYear != null)
+            if (titleFilter.AuthorIds.Count > 0)
             {
-                query = query.Where(title => title.PublishDate.Year == titleFilter.PublishYear);
+                query = query
+                    .Include(title => title.Authors)
+                    .Where(title => title.Authors.Any(author => titleFilter.AuthorIds.Contains(author.TitleAuthorId)));
             }
 
             List<Title> titleList = query
@@ -80,13 +88,16 @@ namespace ShelfLink.Services
 
             List<TitleResponse> responses = new List<TitleResponse>();
 
-            // How do I map a list of models to a list of response objects
+
             foreach (var title in titleList)
             {
                 TitleResponse response = new TitleResponse();
 
-                response.AuthorIds = title.Authors?.Select(author => author.TitleAuthorId).ToList();
-                response.AuthorNames = title.Authors?.Select(author => author.Name).ToList();
+                response.Authors = title.Authors.Select(a => new AuthorResponse
+                {
+                    TitleAuthorId = a.TitleAuthorId,
+                    Name = a.Name
+                }).ToList();
 
                 // Map the rest of the data
                 response.TitleId = title.TitleId;
@@ -116,10 +127,19 @@ namespace ShelfLink.Services
                 PublisherName = titleCreateRequest.PublisherName,
                 GenreName = titleCreateRequest.GenreName,
                 CategoryName = titleCreateRequest.CategoryName
-                
             };
+                
+            foreach (int authorId in titleCreateRequest.AuthorIds)
+            {
+                TitleAuthor? authorToAdd = _authorRepo.GetById(authorId);
 
-            // TODO: Search for AuthorIds after service is created
+                if (authorToAdd == null)
+                {
+                    throw new KeyNotFoundException($"The author with Id {authorId} to append to the title could not be found");
+                }
+
+                newTitle.Authors.Add(authorToAdd);
+            }
 
             _titleRepo.Add(newTitle);
 
@@ -165,7 +185,20 @@ namespace ShelfLink.Services
                 titleToUpdate.PublishDate = titleUpdateRequest.PublishDate.Value;
             }
 
-            // TODO: Add AuthorIds after service is made
+            if (titleUpdateRequest.AuthorIds != null)
+            {
+                foreach (int authorId in titleUpdateRequest.AuthorIds)
+                {
+                    TitleAuthor? authorToAdd = _authorRepo.GetById(authorId);
+
+                    if (authorToAdd == null)
+                    {
+                        throw new KeyNotFoundException($"The author with Id {authorId} to append to the title could not be found");
+                    }
+
+                    titleToUpdate.Authors.Add(authorToAdd);
+                }
+            }
 
 
             if (titleUpdateRequest.PublisherName != null)
@@ -197,9 +230,14 @@ namespace ShelfLink.Services
                 Publisher = titleToUpdate.PublisherName,
                 Genre = titleToUpdate.GenreName,
                 CategoryName = titleToUpdate.CategoryName,
-                // TODO: Add authors
-                AuthorIds = titleToUpdate.Authors?.Select(a => a.TitleAuthorId).ToList(),
-                AuthorNames = titleToUpdate.Authors?.Select(a => a.Name).ToList()
+
+                Authors = titleToUpdate.Authors.Select(a => new AuthorResponse
+                {
+                    TitleAuthorId = a.TitleAuthorId,
+                    Name = a.Name
+                }).ToList()
+            };
+        }
 
         /// <summary>
         /// Overwrite an existing Title in the repo. All properties will be overwritten
