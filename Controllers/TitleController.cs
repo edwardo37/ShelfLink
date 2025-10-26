@@ -16,31 +16,31 @@ namespace ShelfLink.Controllers
         }
 
 
-        [HttpGet("{id}", Name = "TitleById")]
+        [HttpGet("{id}")]
         public TitleResponse? GetTitleById(int id)
         {
             return _titleService.GetById(id);
         }
 
-        [HttpGet("", Name = "TitleByFilter")]
+        [HttpPost("search")]
         public List<TitleResponse> GetTitleByFilter([FromBody] TitleFilterRequest titleFilter, [FromQuery] int page, [FromQuery] int pageSize = 20)
         {
             return _titleService.GetByFilterPaged(titleFilter, page, pageSize);
         }
 
-        [HttpPost("", Name = "CreateTitle")]
+        [HttpPost()]
         public TitleResponse CreateTitle([FromBody] TitleCreateRequest titleCreateRequest)
         {
             return _titleService.Create(titleCreateRequest);
         }
 
-        [HttpPut("{id}", Name = "UpdateTitle")]
+        [HttpPut("{id}")]
         public TitleResponse? UpdateTitle(int id, [FromBody] TitleUpdateRequest updatedTitle)
         {
             return _titleService.Update(id, updatedTitle);
         }
 
-        [HttpDelete("{id}", Name = "DeleteTitle")]
+        [HttpDelete("{id}")]
         public bool DeleteTitle(int id)
         {
             _titleService.Delete(id);
